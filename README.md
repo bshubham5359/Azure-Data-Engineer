@@ -318,7 +318,12 @@ df.write.csv('/path/to/save')
 **Data Serialization and Compression**:
 
 1.  Explain how data serialization works in PySpark.
+
+**Answer**: PySpark uses serialization to convert data objects into byte streams for efficient storage or transmission. It employs serializers like PickleSerializer (default) or KryoSerializer (optimized for speed and size). Serialization is crucial for handling distributed data across clusters efficiently.
+
 2.  Discuss the significance of choosing the right compression codec for your PySpark applications.
+
+**Answer**: The right codec affects storage efficiency, data transfer speed, and processing performance. Codecs like Snappy offer a balance between speed and compression ratio, while Gzip provides higher compression at the cost of speed. Selection depends on factors like data size, processing speed requirements, and cluster capabilities.
 
 **Handling Missing Data**:
 
@@ -339,28 +344,62 @@ df.write.csv('/path/to/save')
 **Working with PySpark SQL**:
 
 1.  Describe your experience with PySpark SQL.
+
+**Answer**: My experience with PySpark SQL involves leveraging its capabilities for data manipulation, querying, and analysis within the Spark ecosystem. I've used it extensively for SQL-based operations on large-scale datasets, handling complex transformations, aggregations, and integrations with other data sources.
+
 2.  How do you execute SQL queries on PySpark DataFrames?
+
+**Answer**: SQL queries on PySpark DataFrames are executed using spark.sql() method, enabling seamless integration of SQL syntax with DataFrame operations. It allows running SQL queries directly on DataFrames, providing flexibility in data processing tasks and leveraging SQL's expressive power for analytical tasks in PySpark applications.
 
 **Broadcasting in PySpark**:
 
 1.  What is broadcasting, and how is it useful in PySpark?
+
+**Answer**: Broadcasting in PySpark refers to the efficient distribution of read-only variables to worker nodes in a Spark cluster. It's useful for improving performance by reducing network overhead and speeding up tasks that involve small lookup tables or variables used in joins or filters.
+
 2.  Provide an example scenario where broadcasting can significantly improve performance.
+
+**Answer**: In PySpark, broadcasting is beneficial when joining a large DataFrame with a small lookup table. For instance, joining a massive sales transactions DataFrame with a smaller DataFrame containing product details. By broadcasting the product details DataFrame, PySpark avoids redistributing it across the cluster repeatedly, thus speeding up the join operation significantly.
    
 **PySpark Machine Learning**:
 
 1.  Discuss your experience with PySpark's MLlib.
 2.  Can you give examples of machine learning algorithms you've implemented using PySpark?
 
+**Answer**: I've implemented various algorithms such as:
+- Linear Regression: Predicting sales based on advertising spends.
+- Random Forest: Predicting customer churn based on demographic and usage data.
+- Gradient Boosted Trees: Anomaly detection in network traffic data.
+- K-Means Clustering: Customer segmentation based on purchase behavior.
+
 
 **Job Monitoring and Logging**:
 
 1.  How do you monitor and troubleshoot PySpark Jobs?
+
+**Answer**: Monitoring involves tracking job progress, resource usage, and identifying bottlenecks. Tools like Spark UI provide insights into stages, tasks, and DAG visualization. Troubleshooting involves analyzing logs for errors, memory issues, and optimizing configurations for better performance.
+
 2.  Describe the importance of logging in PySpark applications.
+
+**Answer**: Logging in PySpark applications is crucial for debugging, performance monitoring, and auditing. It captures runtime information, errors, warnings, and execution flow. Logs help in diagnosing issues, optimizing code, and maintaining application health during development, testing, and production deployment phases.
    
 **Integration with Other Technologies**:
 
 1.  Have you integrated PySpark with other big data technologies or databases? If so, please provide examples.
+
+**Answer**: Yes, I have integrated PySpark with:
+
+- Apache Hive: Querying and processing data stored in Hive tables.
+- Apache HBase: Reading and writing data to HBase for real-time analytics.
+- Apache Kafka: Streaming data integration for real-time processing pipelines.
+
 2.  How do you handle data transfer between PySpark and external systems?
+
+**Answer**: Data transfer involves using connectors or APIs tailored for specific systems:
+
+- JDBC/ODBC: Connecting PySpark to traditional databases like MySQL or PostgreSQL.
+- HDFS: Reading and writing files to/from Hadoop Distributed File System.
+- Cloud Storage: Utilizing connectors for AWS S3, Google Cloud Storage, or Azure Blob Storage for data storage and retrieval.
 
 **Real-world Project Scenario**:
 1.  Explain the project that you worked on in your previous organizations.
@@ -370,8 +409,23 @@ df.write.csv('/path/to/save')
 1.  Explain your experience with cluster management in PySpark.
 2.  How do you scale PySpark applications in a cluster environment?
 
+**Answer**: Scaling PySpark involves several strategies:
+
+- Vertical Scaling: Increasing executor memory or cores per node.
+- Horizontal Scaling: Adding more worker nodes to the cluster.
+- Dynamic Allocation: Adjusting resources based on workload demand.
+- Partitioning: Optimizing data partitioning for parallelism and load balancing across nodes
+
 **PySpark Ecosystem**:
 1.  Can you name and briefly describe some popular libraries or tools in the PySpark ecosystem, apart from the core PySpark functionality?
+
+**Answer**: Some popular libraries or tools in the PySpark ecosystem
+
+1. Spark SQL: Enables SQL queries on Spark data structures.
+2. MLlib (Machine Learning Library): Provides scalable machine learning algorithms.
+3. Spark Streaming: Processes real-time data streams.
+4. GraphX: Graph processing library for analyzing graph-structured data.
+5. SparkR: R package for interfacing with Spark.
 
 
 ---
@@ -463,42 +517,184 @@ rdd = sc.parallelize([(1, 'Alice'), (2, 'Bob')])
 df = rdd.toDF(['id', 'name'])
 ```
 
-20. How to Dataframe to Dataset.
+21. How to Dataframe to Dataset.
+
+**Answer**: Use as() method with a case class or encoder to convert a DataFrame to a Dataset, providing type safety. Example:
+```python
+case class Person(id: Int, name: String)
+val dataset = dataframe.as[Person]
+
+```
+
+22. What makes Spark better than Hadoop?
+
+**Answer**: Spark offers in-memory computing for faster data processing, more versatile APIs (e.g., DataFrames, SQL), easier stream processing, and richer machine learning libraries. It reduces I/O overheads and supports interactive queries, making it more efficient than Hadoop's disk-based MapReduce.
+
+23. How can you read a CSV file without using an external schema?
+
+**Answer**: Use spark.read.csv() with inferSchema option to read a CSV file and automatically infer data types. Example:
+```python
+df = spark.read.csv("file.csv", header=True, inferSchema=True)
+
+```
+
+24. What is the difference between Narrow Transformation and Wide Transformation?
+
+**Answer**: Narrow transformations (e.g., map, filter) only require data from a single partition, minimizing data shuffling. Wide transformations (e.g., groupByKey, join) involve data movement across partitions, causing shuffles and requiring coordination between nodes.
+
+25. What are the different parameters that can be passed while Spark-submit?
+
+**Answer**: Parameters include --class (main class), --master (cluster manager URL), --deploy-mode (client or cluster), --executor-memory, --total-executor-cores, --num-executors, --jars (additional jars), --files (extra files), and application jar/path.
+
+26. What are Global Temp View and Temp View?
+
+**Answer**: Temp View is session-scoped, accessible within the current Spark session. Global Temp View is application-scoped, accessible across all Spark sessions using the database global_temp. Example:
+```python
+df.createOrReplaceTempView("temp_view")
+df.createOrReplaceGlobalTempView("global_temp_view")
+
+```
+ 
+27. How can you add two new columns to a Data frame with some calculated values?
+
+**Answer**: Use withColumn() method to add new columns based on calculations. Example:
+```python
+df = df.withColumn("new_col1", df["existing_col"] + 1)
+       .withColumn("new_col2", df["existing_col"] * 2)
+
+```
+
+28. Avro Vs ORC, which one do you prefer?
+
+**Answer**: Avro is preferred for row-based storage and schema evolution, suitable for serialization. ORC is preferred for columnar storage, providing efficient compression and query performance, ideal for analytical queries. Preference depends on specific use case and data characteristics.
+
+29. What are the different types of joins in Spark?
+
+**Answer**: Types include inner join, outer join (full, left, right), semi join, anti join, cross join, and self join, each used based on data requirements and ensuring appropriate handling of matching and non-matching records.
+
+30. Can you explain Anti join and Semi join?
+
+**Answer**: An anti join returns rows from the left DataFrame where no matches are found in the right DataFrame. A semi join returns rows from the left DataFrame that have matching rows in the right DataFrame, but without including columns from the right DataFrame.
+
+31. What is the difference between Order By, Sort By, and Cluster By?
+
+**Answer**: 
+- Order By: Global sort, sorts entire DataFrame, and shuffles data.
+- Sort By: Local sort, sorts within partitions, no shuffle.
+- Cluster By: Distributes data based on columns, sorts within each partition, useful for bucketing.
+
+
+32. Data Frame vs Dataset in spark?
 
 **Answer**:
+- DataFrame: Untyped, optimized for SQL queries, schema-based.
+- Dataset: Typed, combines benefits of RDDs and DataFrames, offers type safety and object-oriented programming with compile-time checks.
 
-18. What makes Spark better than Hadoop?
+33. What are the join strategies in Spark
+
+**Answer**: Join strategies include broadcast join, shuffle hash join, sort-merge join, and Cartesian join, each optimized for different scenarios based on dataset sizes and distributions, minimizing data shuffling and improving performance.
+
+34. What happens in Cluster deployment mode and Client deployment mode
 
 **Answer**:
+- Cluster Mode: Driver runs on a worker node, suitable for production, resource isolation.
+- Client Mode: Driver runs on local machine, suitable for development, lower latency.
 
-19. How can you read a CSV file without using an external schema?
-20. What is the difference between Narrow Transformation and Wide Transformation?
-21. What are the different parameters that can be passed while Spark-submit?
-22. What are Global Temp View and Temp View?
-23. How can you add two new columns to a Data frame with some calculated values?
-24. Avro Vs ORC, which one do you prefer?
-25. What are the different types of joins in Spark?
-26. Can you explain Anti join and Semi join?
-27. What is the difference between Order By, Sort By, and Cluster By?
-28. Data Frame vs Dataset in spark?
-29. What are the join strategies in Spark
-30. What happens in Cluster deployment mode and Client deployment mode
-31. What are the parameters you have used in spark-submit
-32. How do you add a new column in Spark
-33. How do you drop a column in Spark
-34. What is difference between map and flatmap?
-35. What is skew partitions?
-36. What is DAG and Lineage in Spark?
-37. What is the difference between RDD and Dataframe?
-38. Where we can find the spark application logs.
-39. What is the difference between reduceByKey and groupByKey?
-40. what is spark optimization?
-41. What are shared variables in spark
-42. What is a broadcast variable
-43. Why spark instead of Hive
-44. what is cache
-45. Tell me the steps to read a file in spark
-46. How do you handle 10 GB file in spark, how do you optimize it?
+35. What are the parameters you have used in spark-submit
+
+**Answer**:
+- --class
+- --master
+- --deploy-mode
+- --executor-memory
+- --total-executor-cores
+- --num-executors
+- --conf (custom configurations)
+- Application JAR path
+
+
+36. How do you add a new column in Spark
+
+**Answer**: Use withColumn() to add a new column. Example:
+```python
+df = df.withColumn("new_col", df["existing_col"] + 1)
+
+```
+
+37. How do you drop a column in Spark
+
+**Answer**: Use drop() to remove a column. Example:
+```python
+df = df.drop("col_to_drop")
+```
+
+38. What is difference between map and flatmap?
+
+**Answer**:
+- map(): Transforms each element, returning one output per input.
+- flatMap(): Transforms each element, returning zero or more outputs, useful for splitting or flattening data.
+
+39. What is skew partitions?
+
+**Answer**: Skew partitions occur when data is unevenly distributed across partitions, leading to processing imbalances. Techniques like salting, repartitioning, and custom partitioning strategies help mitigate skew.
+
+40. What is DAG and Lineage in Spark?
+
+**Answer**:
+- DAG (Directed Acyclic Graph): Represents the sequence of computations as a graph.
+- Lineage: Tracks transformations and dependencies of RDDs/DataFrames, enabling fault tolerance and recomputation of lost data.
+
+41. What is the difference between RDD and Dataframe?
+
+**Answer**:
+- RDD: Low-level, resilient distributed dataset, no schema, functional programming interface, less optimized.
+- DataFrame: High-level, schema-based, optimized for SQL queries, uses Catalyst optimizer, provides richer APIs.
+
+42. Where we can find the spark application logs.
+
+**Answer**: Spark application logs can be found in the configured log directory on the cluster's nodes, accessible via the Spark UI under the "Logs" section, or in the cluster manager’s web UI (e.g., YARN, Mesos).
+
+43. What is the difference between reduceByKey and groupByKey?
+
+**Answer**: 
+- reduceByKey: Combines values for each key locally before shuffling, reducing data movement and memory usage.
+- groupByKey: Groups all values for each key, causing potential shuffling and high memory usage.
+
+44. what is spark optimization?
+
+**Answer**: Spark optimization involves techniques like Catalyst optimizer, Tungsten execution engine, caching, partitioning, avoiding shuffles, and tuning configurations to improve performance and efficiency of Spark jobs.
+
+45. What are shared variables in spark
+
+**Answer**: Shared variables in Spark include accumulators and broadcast variables, used for aggregating data across tasks and distributing read-only data to all nodes efficiently, respectively.
+
+46. What is a broadcast variable
+
+**Answer**: A broadcast variable distributes a read-only variable to all worker nodes, ensuring efficient data reuse across tasks and reducing the overhead of data transfer during distributed computations.
+
+47. Why spark instead of Hive
+
+**Answer**: Spark offers faster in-memory processing, richer APIs, real-time stream processing, better support for machine learning, and interactive queries, while Hive is primarily used for batch processing and querying in a Hadoop ecosystem.
+
+48. what is cache
+
+**Answer**: Cache stores RDD/DataFrame in memory for faster access in subsequent operations, reducing recomputation costs and improving performance for iterative algorithms and repeated data access.
+
+49. Tell me the steps to read a file in spark
+
+**Answer**: Use spark.read methods to load the file.
+```python
+df = spark.read.csv("path/to/file.csv", header=True, inferSchema=True)
+```
+
+50. How do you handle 10 GB file in spark, how do you optimize it?
+
+**Answer**: Handle large files by:
+- Partitioning data appropriately.
+- Using efficient file formats (e.g., Parquet).
+- Caching intermediate results.
+- Adjusting memory settings and parallelism.
+- Avoiding wide transformations to minimize shuffling.
 
 
 ---
@@ -507,16 +703,136 @@ df = rdd.toDF(['id', 'name'])
 
 
 1. Find out nth Order/Salary from the tables.
+ 
+```sql
+SELECT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET (n-1);
+
+```
+
 2. Find the no of output records in each join from given Table 1 & Table 2
+
+```sql
+SELECT COUNT(*)
+FROM table1
+JOIN table2 ON table1.id = table2.id;
+```
+
 3. YOY,MOM Growth related questions.
+
+```sql
+SELECT year, 
+       (current_year_revenue - previous_year_revenue) / previous_year_revenue AS yoy_growth
+FROM (
+  SELECT year, 
+         revenue AS current_year_revenue, 
+         LAG(revenue, 1) OVER (ORDER BY year) AS previous_year_revenue
+  FROM revenue_table
+) AS subquery;
+```
+
 4. Find out Employee ,Manager Hierarchy (Self join related question) or
 Employees who are earning more than managers.
+
+```sql
+SELECT e1.name AS employee, e2.name AS manager
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.id;
+
+SELECT e1.name AS employee
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.id
+WHERE e1.salary > e2.salary;
+```
+
 5. RANK,DENSERANK related questions
+
+```sql
+SELECT name, salary, RANK() OVER (ORDER BY salary DESC) AS rank
+FROM employees;
+
+SELECT name, salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS dense_rank
+FROM employees;
+```
+
 6. Some row level scanning medium to complex questions using CTE or recursive CTE, like (Missing no /Missing Item from the list etc.)
+
+```sql
+WITH MissingNumbers AS (
+  SELECT n
+  FROM generate_series(1, 100) n
+  EXCEPT
+  SELECT number FROM numbers_table
+)
+SELECT * FROM MissingNumbers;
+
+WITH RECURSIVE EmployeeHierarchy AS (
+  SELECT id, name, manager_id
+  FROM employees
+  WHERE manager_id IS NULL
+  UNION ALL
+  SELECT e.id, e.name, e.manager_id
+  FROM employees e
+  JOIN EmployeeHierarchy eh ON e.manager_id = eh.id
+)
+SELECT * FROM EmployeeHierarchy;
+```
+
 7. No of matches played by every team or Source to Destination flight combination using CROSS JOIN.
+
+```sql
+SELECT team1.name AS team1, team2.name AS team2
+FROM teams team1
+CROSS JOIN teams team2
+WHERE team1.id != team2.id;
+
+SELECT src.city AS source, dst.city AS destination
+FROM cities src
+CROSS JOIN cities dst;
+```
+
 8. Use window functions to perform advanced analytical tasks, such as calculating moving averages or detecting outliers.
+
+```sql
+SELECT date, 
+       AVG(sales) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_average
+FROM sales_table;
+
+SELECT *, 
+       AVG(value) OVER () + 2 * STDDEV(value) OVER () AS upper_bound,
+       AVG(value) OVER () - 2 * STDDEV(value) OVER () AS lower_bound
+FROM data_table
+HAVING value > upper_bound OR value < lower_bound;
+```
+
 9. Implement logic to handle hierarchical data, such as finding all descendants of a given node in a tree structure.
-10. Identify and remove duplicate records from a table.
+
+```sql
+WITH RECURSIVE Descendants AS (
+  SELECT id, name, parent_id
+  FROM hierarchy_table
+  WHERE id = ?
+  UNION ALL
+  SELECT h.id, h.name, h.parent_id
+  FROM hierarchy_table h
+  JOIN Descendants d ON h.parent_id = d.id
+)
+SELECT * FROM Descendants;
+```
+
+10.  Identify and remove duplicate records from a table.
+
+```sql
+DELETE FROM employees
+WHERE id NOT IN (
+  SELECT MIN(id)
+  FROM employees
+  GROUP BY name, salary, department
+);
+```
+
 
 ---
 
@@ -524,16 +840,144 @@ Employees who are earning more than managers.
 
 
 1. Reversing a String using an Extended Slicing techniques.
+
+```python
+def reverse_string(s):
+    return s[::-1]
+
+print(reverse_string("Hello"))
+```
+
 2. Count Vowels from Given words.
+
+```python
+def count_vowels(s):
+    vowels = 'aeiouAEIOU'
+    return sum(1 for char in s if char in vowels)
+
+print(count_vowels("Hello"))
+```
+
 3. Find the highest occurrences of each word from string and sort them in order.
+
+```python
+from collections import Counter
+
+def word_occurrences(s):
+    words = s.split()
+    word_counts = Counter(words)
+    return sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
+
+print(word_occurrences("this is a test. this test is just a test."))
+```
+
 4. Remove Duplicates from List.
+
+```python
+def remove_duplicates(lst):
+    return list(dict.fromkeys(lst))
+
+print(remove_duplicates([1, 2, 2, 3, 4, 4, 5]))
+```
+
 5. Sort a List without using Sort keyword.
+
+```python
+def sort_list(lst):
+    for i in range(len(lst)):
+        for j in range(i + 1, len(lst)):
+            if lst[i] > lst[j]:
+                lst[i], lst[j] = lst[j], lst[i]
+    return lst
+
+print(sort_list([4, 2, 5, 1, 3]))
+```
+
 6. Find the pair of numbers in this list whose sum is n no.
+
+```python
+def find_pairs(lst, n):
+    pairs = []
+    for i in range(len(lst)):
+        for j in range(i + 1, len(lst)):
+            if lst[i] + lst[j] == n:
+                pairs.append((lst[i], lst[j]))
+    return pairs
+
+print(find_pairs([1, 2, 3, 4, 5], 5))
+```
+
 7. Find the max and min no in the list without using inbuilt functions.
-8. Calculate the Intersection of Two Lists without using Built-in Functions
-9. Write Python code to make API requests to a public
+
+```python
+def find_max_min(lst):
+    max_num = lst[0]
+    min_num = lst[0]
+    for num in lst:
+        if num > max_num:
+            max_num = num
+        if num < min_num:
+            min_num = num
+    return max_num, min_num
+
+print(find_max_min([4, 2, 8, 1, 7]))
+```
+
+8. Calculate the Intersection of Two Lists without using Built-in Functions.
+
+```python
+def intersection(lst1, lst2):
+    result = []
+    for elem in lst1:
+        if elem in lst2 and elem not in result:
+            result.append(elem)
+    return result
+
+print(intersection([1, 2, 3, 4], [3, 4, 5, 6]))
+```
+
+9.  Write Python code to make API requests to a public
 API (e.g., weather API) and process the JSON response.
-10. Implement a function to fetch data from a database table, perform data manipulation, and update the database.
+
+```python
+import requests
+
+def get_weather(city):
+    api_key = 'your_api_key_here'
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        return None
+
+print(get_weather("London"))
+```
+
+10.  Implement a function to fetch data from a database table, perform data manipulation, and update the database.
+   
+```python
+import sqlite3
+
+def fetch_and_update_data(db_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    # Fetch data
+    cursor.execute("SELECT id, value FROM table_name")
+    rows = cursor.fetchall()
+
+    # Perform data manipulation
+    updated_rows = [(value * 2, id) for id, value in rows]
+
+    # Update database
+    cursor.executemany("UPDATE table_name SET value = ? WHERE id = ?", updated_rows)
+    conn.commit()
+    conn.close()
+
+fetch_and_update_data('example.db')
+```
 
 
 ---
@@ -542,12 +986,152 @@ API (e.g., weather API) and process the JSON response.
 
 1. Write a query using a Common Table Expression
 (CTE) to achieve a complex data transformation.
-1. Explain the concept of window functions and provide an example using RANK or LAG.
-1. Optimize a slow-running query by identifying appropriate indexes.
-1. Write a stored procedure that takes parameters and performs specific data manipulation tasks.
-1. Explain the concept of database normalization and its benefits for data integrity.
-1. Write a query that finds duplicate rows in a table based on specific columns.
-1. Utilize temporary tables to perform multi-step data transformations within a single query.
-1. Write a query that joins multiple tables with complex relationships (e.g., self-joins).
-1. Explain the differences between INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN with examples.
-1. Write a query that aggregates data based on hierarchical relationships between records.
+
+```sql
+WITH SalesCTE AS (
+    SELECT employee_id, SUM(sales_amount) AS total_sales
+    FROM sales
+    GROUP BY employee_id
+),
+EmployeeSalesRank AS (
+    SELECT e.employee_id, e.name, s.total_sales,
+           RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank
+    FROM employees e
+    JOIN SalesCTE s ON e.employee_id = s.employee_id
+)
+SELECT *
+FROM EmployeeSalesRank
+WHERE sales_rank <= 5;
+
+```
+
+2. Explain the concept of window functions and provide an example using RANK or LAG.
+
+- Window Functions: Allow performing calculations across a set of table rows related to the current row. Examples include RANK, LAG, LEAD, etc.
+
+```sql
+SELECT employee_id, sales_amount,
+       RANK() OVER (ORDER BY sales_amount DESC) AS sales_rank,
+       LAG(sales_amount, 1) OVER (ORDER BY sales_amount DESC) AS previous_sales
+FROM sales;
+
+```
+
+3. Optimize a slow-running query by identifying appropriate indexes.
+
+```sql
+-- Original slow query
+SELECT * FROM orders WHERE customer_id = 123;
+
+-- Create an index to optimize the query
+CREATE INDEX idx_customer_id ON orders (customer_id);
+
+-- Optimized query using the index
+SELECT * FROM orders WHERE customer_id = 123;
+```
+
+4. Write a stored procedure that takes parameters and performs specific data manipulation tasks.
+
+```sql
+CREATE PROCEDURE UpdateEmployeeSalary (
+    IN emp_id INT,
+    IN new_salary DECIMAL(10, 2)
+)
+BEGIN
+    UPDATE employees
+    SET salary = new_salary
+    WHERE employee_id = emp_id;
+END;
+
+CALL UpdateEmployeeSalary(1, 75000);
+```
+
+5. Explain the concept of database normalization and its benefits for data integrity.
+
+- Database Normalization: Process of organizing data to reduce redundancy and improve data integrity. Normal forms (1NF, 2NF, 3NF) ensure that tables are structured efficiently.
+- Benefits: Minimizes duplication, ensures data consistency, improves query performance, and simplifies database maintenance.
+
+6. Write a query that finds duplicate rows in a table based on specific columns.
+
+```sql
+SELECT column1, column2, COUNT(*)
+FROM table_name
+GROUP BY column1, column2
+HAVING COUNT(*) > 1;
+```
+
+7. Utilize temporary tables to perform multi-step data transformations within a single query.
+
+```sql
+CREATE TEMPORARY TABLE TempSales AS
+SELECT employee_id, SUM(sales_amount) AS total_sales
+FROM sales
+GROUP BY employee_id;
+
+CREATE TEMPORARY TABLE TempRank AS
+SELECT employee_id, total_sales,
+       RANK() OVER (ORDER BY total_sales DESC) AS sales_rank
+FROM TempSales;
+
+SELECT *
+FROM TempRank
+WHERE sales_rank <= 5;
+```
+
+8. Write a query that joins multiple tables with complex relationships (e.g., self-joins).
+
+```sql
+SELECT e1.name AS employee, e2.name AS manager
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.employee_id;
+
+SELECT o.order_id, c.name AS customer_name, e.name AS employee_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN employees e ON o.employee_id = e.employee_id;
+```
+
+9.  Explain the differences between INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN with examples.
+
+- INNER JOIN: Returns matching rows from both tables.
+
+```sql
+SELECT * FROM A INNER JOIN B ON A.id = B.id;
+```
+
+- LEFT JOIN: Returns all rows from the left table and matched rows from the right table.
+
+```sql
+SELECT * FROM A LEFT JOIN B ON A.id = B.id;
+```
+
+- RIGHT JOIN: Returns all rows from the right table and matched rows from the left table
+
+```sql
+SELECT * FROM A RIGHT JOIN B ON A.id = B.id;
+```
+
+- FULL JOIN: Returns all rows when there is a match in either table.
+
+```sql
+SELECT * FROM A FULL OUTER JOIN B ON A.id = B.id;
+```
+
+10.  Write a query that aggregates data based on hierarchical relationships between records.
+
+```sql
+WITH RECURSIVE EmployeeHierarchy AS (
+    SELECT employee_id, name, manager_id, 1 AS level
+    FROM employees
+    WHERE manager_id IS NULL
+    UNION ALL
+    SELECT e.employee_id, e.name, e.manager_id, eh.level + 1
+    FROM employees e
+    JOIN EmployeeHierarchy eh ON e.manager_id = eh.employee_id
+)
+SELECT manager_id, COUNT(employee_id) AS total_employees
+FROM EmployeeHierarchy
+GROUP BY manager_id;
+```
+
+---
