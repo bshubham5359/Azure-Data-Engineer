@@ -323,7 +323,18 @@ df.write.csv('/path/to/save')
 **Handling Missing Data**:
 
 1.  How do you deal with missing or null values in PySpark DataFrames?
+
+**Answer**:
+- dropna() to remove rows with nulls
+- fillna() to fill nulls with specified values
+- replace() to replace specific values. 
+
 2.  Are there any specific strategies or functions you prefer for handling missing data?
+
+**Answer**:
+- fillna() with appropriate replacement values or statistical measures like mean or median for numerical data.
+- dropna() selectively removes rows or columns with nulls based on analysis needs, ensuring data quality and integrity throughout processing pipelines.
+
 
 **Working with PySpark SQL**:
 
@@ -369,55 +380,125 @@ df.write.csv('/path/to/save')
 
 
 1. Difference between RDD & Dataframes
+
+**Answer**: RDDs are lower-level, immutable collections of data, while DataFrames are higher-level APIs with schema support, optimized for SQL-like operations and Catalyst optimization.
+
 2. What are the challenges you face in spark?
+
+**Answer**: Challenges include handling skewed data, optimizing job performance, managing resource allocation, tuning for memory usage, and ensuring fault tolerance and scalability.
+
 3. What is difference between reduceByKey & groupByKey?
+
+**Answer**: reduceByKey combines values for each key using a function, aggregating data locally before shuffling, optimizing performance. groupByKey groups data without aggregation, potentially causing excessive data movement and memory consumption.
+
 4. What is the difference between Persist and Cache?
+
+**Answer**: Both persist RDDs/DataFrames in memory, but cache() is a shorthand for persist() with default storage level MEMORY_ONLY. persist() allows specifying storage levels like MEMORY_AND_DISK for durability or MEMORY_ONLY_SER for serialized storage.
+
 5. What is the Advantage of a Parquet File?
+
+**Answer**: Parquet offers efficient columnar storage, reducing storage space and improving read/write performance. It supports complex nested data structures, predicate pushdown for efficient query execution, and integration with various data processing frameworks.
+
 6. What is a Broadcast Join ?
+
+**Answer**: Broadcasts smaller DataFrame/RDD to each node, reducing data movement during join operations. Ideal for smaller datasets or when one dataset is significantly smaller than others, optimizing performance by minimizing network traffic.
+
 7. What is Difference between Coalesce and Repartition?
+
+**Answer**: Both adjust the number of partitions, but coalesce() minimizes shuffling and avoids full data movement, useful for reducing partitions. repartition() involves full shuffle and can increase or decrease partitions, ensuring data redistribution.
+
 8. What are the roles and responsibility of driver in spark Architecture?
+
+**Answer**: The driver coordinates the execution of Spark jobs, communicates with the cluster manager to acquire resources, splits tasks into stages, and manages the execution of tasks on worker nodes, handling task scheduling, fault recovery, and job monitoring.
+
 9. What is meant by Data Skewness? How is it deal?
+
+**Answer**: Data skewness refers to uneven distribution of data across partitions, slowing down processing. Techniques like data pre-processing (e.g., salting), custom partitioning strategies, or using repartition() can alleviate skew by balancing workload across nodes.
+
 10. What are the optimisation techniques used in Spark?
+
+**Answer**: Techniques include choosing appropriate transformations/actions, partitioning data effectively, caching/persisting intermediate results, using broadcast variables for small data, tuning memory and parallelism settings (spark-defaults.conf), and optimizing join strategies.
+
 11. What is Difference Between Map and FlatMap?
+
+**Answer**: map() transforms each element of an RDD/DataFrame independently and returns one output for each input. flatMap() maps each input element to zero or more output elements, useful for operations like tokenization or exploding arrays.
+
 12. What are accumulator and BroadCast Variables?
+
+**Answer**: Accumulators aggregate values across tasks, typically used for counters or sums in a distributed manner. Broadcast variables efficiently distribute read-only data to worker nodes, cached for reuse in operations like joins.
+
 13. What is a OOM Issue, how to deal it?
+
+**Answer**: OOM (Out of Memory) occurs when Spark runs out of memory due to large datasets or inefficient operations. Solutions include optimizing memory settings (spark.executor.memory), caching/persisting data, using efficient transformations, or scaling resources based on workload.
+
 14. what are tranformation in spark? Type of Transformation?
+
+**Answer**: Transformations modify RDDs/DataFrames to build a sequence of instructions for execution. Types include map, flatMap, filter (narrow transformations), groupBy, join (wide transformations), and sort, each defining how data is processed or combined.
+
 15. Tell me some action in spark that you used ?
+
+**Answer**: Common actions like show, collect, count, save, and reduce trigger execution and return results to the driver. These actions perform computations on RDDs/DataFrames and provide outcomes or write data to external storage.
+
 16. What is the role of Catalyst Optimizer ?
+
+**Answer**: Catalyst Optimizer optimizes Spark SQL queries by generating an optimized logical and physical execution plan. It leverages cost-based optimization, rule-based transformations, and code generation to improve query performance by minimizing data movement and computation.
+
 17. what is the checkpointing?
+
+**Answer**: Checkpointing saves RDD/DataFrame to disk to cut its lineage, reducing memory usage and recomputation in case of failures. It improves fault tolerance and performance for iterative algorithms or long lineage RDDs by creating a reliable storage checkpoint.
+
 18. Cache and persist
+
+**Answer**: Both store RDDs/DataFrames in memory/disk for fast access but differ in flexibility. cache() uses default MEMORY_ONLY storage level, while persist() allows setting storage levels like MEMORY_AND_DISK for durability or MEMORY_ONLY_SER for serialization, adapting to specific needs.
+
 19. What do you understand by Lazy Evaluation?
+
+**Answer**: Spark evaluates transformations only when an action requires a result. This deferred execution optimizes performance by optimizing job execution, minimizing data movement, and allowing Spark to optimize the entire workflow before actual computation starts.
+
 20. How to convert Rdd to Dataframe?
-21. How to Dataframe to Dataset.
-22. What makes Spark better than Hadoop?
-23. How can you read a CSV file without using an external schema?
-24. What is the difference between Narrow Transformation and Wide Transformation?
-25. What are the different parameters that can be passed while Spark-submit?
-26. What are Global Temp View and Temp View?
-27. How can you add two new columns to a Data frame with some calculated values?
-28. Avro Vs ORC, which one do you prefer?
-29. What are the different types of joins in Spark?
-30. Can you explain Anti join and Semi join?
-31. What is the difference between Order By, Sort By, and Cluster By?
-32. Data Frame vs Dataset in spark?
-33. What are the join strategies in Spark
-34. What happens in Cluster deployment mode and Client deployment mode
-35. What are the parameters you have used in spark-submit
-36. How do you add a new column in Spark
-37. How do you drop a column in Spark
-38. What is difference between map and flatmap?
-39. What is skew partitions?
-40. What is DAG and Lineage in Spark?
-41. What is the difference between RDD and Dataframe?
-42. Where we can find the spark application logs.
-43. What is the difference between reduceByKey and groupByKey?
-44. what is spark optimization?
-45. What are shared variables in spark
-46. What is a broadcast variable
-47. Why spark instead of Hive
-48. what is cache
-49. Tell me the steps to read a file in spark
-50. How do you handle 10 GB file in spark, how do you optimize it?
+
+**Answer**: Convert an RDD to DataFrame using toDF() method on the RDD, specifying column names. Example:
+```python
+rdd = sc.parallelize([(1, 'Alice'), (2, 'Bob')])
+df = rdd.toDF(['id', 'name'])
+```
+
+20. How to Dataframe to Dataset.
+
+**Answer**:
+
+18. What makes Spark better than Hadoop?
+
+**Answer**:
+
+19. How can you read a CSV file without using an external schema?
+20. What is the difference between Narrow Transformation and Wide Transformation?
+21. What are the different parameters that can be passed while Spark-submit?
+22. What are Global Temp View and Temp View?
+23. How can you add two new columns to a Data frame with some calculated values?
+24. Avro Vs ORC, which one do you prefer?
+25. What are the different types of joins in Spark?
+26. Can you explain Anti join and Semi join?
+27. What is the difference between Order By, Sort By, and Cluster By?
+28. Data Frame vs Dataset in spark?
+29. What are the join strategies in Spark
+30. What happens in Cluster deployment mode and Client deployment mode
+31. What are the parameters you have used in spark-submit
+32. How do you add a new column in Spark
+33. How do you drop a column in Spark
+34. What is difference between map and flatmap?
+35. What is skew partitions?
+36. What is DAG and Lineage in Spark?
+37. What is the difference between RDD and Dataframe?
+38. Where we can find the spark application logs.
+39. What is the difference between reduceByKey and groupByKey?
+40. what is spark optimization?
+41. What are shared variables in spark
+42. What is a broadcast variable
+43. Why spark instead of Hive
+44. what is cache
+45. Tell me the steps to read a file in spark
+46. How do you handle 10 GB file in spark, how do you optimize it?
 
 
 ---
