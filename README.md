@@ -217,19 +217,103 @@ Power BI.
 **PySpark Basics**:
 
 1. Explain the basic architecture of PySpark.
+
+**Answer**: 
+- PySpark is a Python API for Apache Spark, enabling Python developers to harness Spark's capabilities. 
+- Its architecture comprises a driver program and worker nodes. The driver runs the main application, creating SparkContext, which connects to a cluster manager (YARN, Mesos, or standalone). 
+- The cluster manager allocates resources to worker nodes, where executors run tasks. Each task processes data and performs computations in parallel. 
+- PySpark employs RDDs (Resilient Distributed Datasets) for fault-tolerant, distributed data processing, with transformations and actions to manipulate data efficiently. 
+- This architecture ensures scalability and performance for big data analytics.
+
+![Spark-Architecture](/img/Spark-Architecture.png)
+  
 2. How does PySpark relate to Apache Spark, and what advantages does it offer in distributed data processing?
+
+**Answer**: 
+- PySpark is the Python API for Apache Spark, allowing Python developers to use Spark's capabilities. 
+- It integrates seamlessly with Spark, enabling the use of Python's rich ecosystem alongside Spark's powerful distributed computing framework. 
+- PySpark offers advantages like easy integration with Hadoop, support for data parallelism and fault tolerance through RDDs (Resilient Distributed Datasets), and optimized in-memory computations. 
+- It simplifies big data processing by providing high-level APIs for data manipulation and machine learning, making it accessible for Python users to perform scalable, efficient, and fast data processing across large clusters.
 
 **DataFrame Operations**:
 
 1. Describe the difference between a DataFrame and an RDD in PySpark.
-2. Can you explain transformations and actions in PySpark DataFrames?
+
+**Answer**:
+- RDDs are low-level, schema-less collections for distributed data processing, offering fine-grained control. 
+- DataFrames are high-level, schema-based tables optimized for SQL-like operations and performance.
+```python
+# RDD example
+rdd = sc.parallelize([1, 2, 3, 4])
+# DataFrame example
+df = spark.createDataFrame([(1, 'Alice'), (2, 'Bob')], ['id', 'name'])
+
+```
+
+2. Can you explain transformations and actions in PySpark DataFrabmes?
+
+**Answer**:
+- In PySpark DataFrames, transformations (e.g., select, filter, groupBy) are operations that define a new DataFrame from an existing one, without immediately computing results. 
+- Actions (e.g., show, collect, write) trigger the execution of these transformations, producing and returning the final output.
+
 3. Provide examples of PySpark DataFrame operations you frequently use.
 
+**Answer**:
+```python
+# Creating a DataFrame
+data = [(1, 'Alice', 28), (2, 'Bob', 35), (3, 'Cathy', 23)]
+df = spark.createDataFrame(data, ['id', 'name', 'age'])
+
+# Showing Data
+df.show()
+
+# Selecting Columns
+df.select('name', 'age').show()
+
+# Filtering Rows
+df.filter(df['age'] > 30).show()
+
+# Grouping and Aggregation
+df.groupBy('age').count().show()
+
+# Adding a Column
+from pyspark.sql.functions import lit
+
+df.withColumn('country', lit('USA')).show()
+
+# Removing a Column
+df.drop('age').show()
+
+# Sorting Data
+df.sort(df['age'].desc()).show()
+
+# Joining DataFrames
+data2 = [(1, 'New York'), (2, 'Los Angeles'), (4, 'Chicago')]
+df2 = spark.createDataFrame(data2, ['id', 'city'])
+
+df.join(df2, on='id', how='inner').show()
+
+# Writing to Disk
+df.write.csv('/path/to/save')
+```
 
 **Optimizing PySpark Jobs**:
 
 1. How do you optimize the performance of PySpark jobs?
+
+**Answer**:
+- To optimize PySpark jobs, 
+  - use DataFrames over RDDs for their built-in optimizations
+  - cache/persist intermediate results
+  - leverage partitioning to balance workloads
+  - avoid shuffling by minimizing wide transformations
+  - use broadcast variables for small data
+  - configure Spark settings for resource allocation and parallelism
+
 2. Can you discuss techniques for handling skewed data in PySpark?
+
+**Answer**:
+- To handle skewed data in PySpark, use techniques like salting (adding random keys to distribute skewed keys), adjusting partitioning, using repartition() or coalesce() to balance partitions, leveraging broadcast joins for smaller datasets, and employing custom partitioning strategies to evenly distribute workload.
 
 **Data Serialization and Compression**:
 
