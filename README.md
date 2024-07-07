@@ -129,33 +129,33 @@ Order By guarantees total order across all partitions in the final output.
 
 **Scenario 1**:
 
-    Interviewer: Can you design a data warehouse for an e-commerce company with 10 million customers and 1 million orders per day?
+- **Interviewer**: Can you design a data warehouse for an e-commerce company with 10 million customers and 1 million orders per day?
 
-    Candidate: Yes, I would design a data warehouse using Azure Synapse Analytics or Amazon Redshift, with a star schema architecture and appropriate indexing and partitioning to handle the large volume of data.
+- **Candidate**: Yes, I would design a data warehouse using Azure Synapse Analytics or Amazon Redshift, with a star schema architecture and appropriate indexing and partitioning to handle the large volume of data.
 
 **Scenario 2**:
 
-    Interviewer: How would you optimize a slow-performing query that takes 10 minutes to execute?
+- **Interviewer**: How would you optimize a slow-performing query that takes 10 minutes to execute?
 
-    Candidate: I would analyze the query plan, identify performance bottlenecks, and apply optimization techniques like indexing, caching, and query rewriting to reduce execution time to less than 1 minute.
+- **Candidate**: I would analyze the query plan, identify performance bottlenecks, and apply optimization techniques like indexing, caching, and query rewriting to reduce execution time to less than 1 minute.
 
 **Scenario 3**:
 
-    Interviewer: Can you integrate data from 5 different sources, including AP/s, databases, and files, into a single data platform?
+- **Interviewer**: Can you integrate data from 5 different sources, including AP/s, databases, and files, into a single data platform?
 
-    Candidate: Yes, I would use Azure Data Factory or Apache NiFi to integrate the data sources, transform and cleanse the data as needed, and load it into a unified data platform like Azure Data Lake Storage or Amazon S3.
+- **Candidate**: Yes, I would use Azure Data Factory or Apache NiFi to integrate the data sources, transform and cleanse the data as needed, and load it into a unified data platform like Azure Data Lake Storage or Amazon S3.
 
 **Scenario 4**:
 
-    Interviewer: How would you ensure data security and compliance with regulations like GDPR and HIPAA?
+- **Interviewer**: How would you ensure data security and compliance with regulations like GDPR and HIPAA?
 
-    Candidate: I would implement encryption, access controls, data masking, and auditing to ensure data security and compliance, and regularly monitor and update security measures to ensure ongoing compliance.
+- **Candidate**: I would implement encryption, access controls, data masking, and auditing to ensure data security and compliance, and regularly monitor and update security measures to ensure ongoing compliance.
 
 **Scenario 5**:
 
-    Interviewer: Can you design a real-time data streaming platform to process 1 million events per second?
+- **Interviewer**: Can you design a real-time data streaming platform to process 1 million events per second?
     
-    Candidate: Yes, I would design a platform using Apache Kafka or Amazon Kinesis, with appropriate clustering, partitioning, and replication to handle the high volume of data, and ensure real-time processing and analytics.
+- **Candidate**: Yes, I would design a platform using Apache Kafka or Amazon Kinesis, with appropriate clustering, partitioning, and replication to handle the high volume of data, and ensure real-time processing and analytics.
 
 **Some additional questions and figures:**
 
