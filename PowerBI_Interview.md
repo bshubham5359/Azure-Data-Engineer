@@ -1,3 +1,5 @@
+(chat_gpt)
+
 ### **Power BI Basic Concepts**
 1. **Core components of Power BI?**  
    - Power BI Desktop: report creation; Power BI Service: sharing and collaboration; Power BI Mobile: mobile report access.
