@@ -1,3 +1,4 @@
+(Bing_gpt)
 ## Technical Skills
 
 ### Power BI Concepts:
