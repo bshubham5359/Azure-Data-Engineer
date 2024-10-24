@@ -142,11 +142,16 @@ SELECT * FROM Descendants;
 10.  Identify and remove duplicate records from a table.
 
 ```sql
-DELETE FROM employees
+DELETE FROM my_table
 WHERE id NOT IN (
-  SELECT MIN(id)
-  FROM employees
-  GROUP BY name, salary, department
+    SELECT
+        MIN(id)
+    FROM
+        my_table
+    GROUP BY
+        column1, column2
+    HAVING
+        COUNT(*) > 1
 );
 ```
 
