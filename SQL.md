@@ -32,19 +32,6 @@ FROM (
 ) AS subquery;
 ```
 
-4. Find out Employee ,Manager Hierarchy (Self join related question) or
-Employees who are earning more than managers.
-
-```sql
-SELECT e1.name AS employee, e2.name AS manager
-FROM employees e1
-JOIN employees e2 ON e1.manager_id = e2.id;
-
-SELECT e1.name AS employee
-FROM employees e1
-JOIN employees e2 ON e1.manager_id = e2.id
-WHERE e1.salary > e2.salary;
-```
 OR
 
 ```sql
@@ -63,6 +50,19 @@ FROM
     revenue_cte;
 ```
 
+4. Find out Employee ,Manager Hierarchy (Self join related question) or
+Employees who are earning more than managers.
+
+```sql
+SELECT e1.name AS employee, e2.name AS manager
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.id;
+
+SELECT e1.name AS employee
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.id
+WHERE e1.salary > e2.salary;
+```
 
 5. RANK,DENSERANK related questions
 
